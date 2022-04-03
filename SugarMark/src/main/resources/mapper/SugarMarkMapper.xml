@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.freefly.dodaily.sugarmark.mapper.SugarMarkMapper">
+    <sql id="selectbase">
+        select `id`,`status`,`days`,`desc`,`c_date`,`u_date` from `mark_dev`
+    </sql>
+
+    <sql id="searchbase">
+        where 1=1
+        <if test="vo != null">
+            <if test="vo.id != null">
+                and `id`=#{vo.id}
+            </if>
+            <if test="vo.status != null">
+                and `status`=#{vo.status}
+            </if>
+            <if test="vo.days != null">
+                and `days`=#{vo.days}
+            </if>
+            <if test="vo.desc != null">
+                and `desc` like #{vo.desc}
+            </if>
+            <if test="vo.cDate != null">
+                and `c_date`=#{vo.cDate}
+            </if>
+            <if test="vo.uDate != null">
+                and `u_date`=#{vo.uDate}
+            </if>
+        </if>
+    </sql>
+
+    <resultMap id="sugarmark" type="org.freefly.dodaily.sugarmark.entity.SugarMark">
+        <id column="id" property="id"></id>
+        <result column="status" property="status"></result>
+        <result column="days" property="days"></result>
+        <result column="desc" property="desc"></result>
+        <result column="c_date" property="cDate"></result>
+        <result column="u_date" property="uDate"></result>
+    </resultMap>
+
+    <select id="findResultByPage" resultMap="sugarmark">
+        <include refid="selectbase"></include>
+        <include refid="searchbase"></include>
+        order by `days` desc
+        limit #{page.startPos},#{page.pageSize}
+    </select>
+
+    <select id="getTotalNumber" resultType="java.lang.Integer">
+        select count(`id`) from `mark_dev`
+        <include refid="searchbase"></include>
+    </select>
+
+    <insert id="createSugarMark" useGeneratedKeys="true" keyColumn="id">
+        insert into mark_dev(`status`,`days`,`desc`,`c_date`,`u_date`)
+        values
+        <foreach collection="list" item="item" open="(" close=")" separator=",">
+            #{item.status},#{item.days},#{item.desc},#{item.cDate},#{item.uDate}
+        </foreach>
+    </insert>
+
+    <update id="updateSugarMark">
+        update mark_dev set
+            `status`=#{vo.status},
+            `desc`=#{vo.desc},
+            `c_date`=#{vo.cDate},
+            `u_date`=#{vo.uDate}
+        where `id`=#{vo.id}
+    </update>
+
+    <delete id="deleteSugarMark">
+        delete from mark where `id` in 
+        <foreach collection="list" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+</mapper>

@@ -32,3 +32,10 @@ mybatis:
   mapper-locations: classpath*:/mapper/*.xml
   configuration:
     auto-mapping-behavior: full
+logging:
+  level:
+    org:
+      freefly:
+        dodaily:
+          sugarmark:
+            mapper: debug
