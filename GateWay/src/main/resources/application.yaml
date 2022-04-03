@@ -1,0 +1,33 @@
+server:
+# Set up server port
+  port: 6005
+
+spring:
+  application:
+    name: gateway
+  profiles:
+    active: dev
+
+# Deploy nacos
+  cloud:
+    nacos:
+      server-addr: 127.0.0.1:8848
+      config:
+        file-extension: yaml
+        timeout: 5000
+        enabled: true
+      discovery:
+        enabled: true
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: sugar
+          uri: lb://sugarmark
+          predicates:
+            - Path=/sugarmark/**
+      #default-filters:
+
+
