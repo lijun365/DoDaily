@@ -1,11 +1,22 @@
 package org.freefly.dodaily.sugarmark.common;
 
-public enum ResultCode {
+public class ResultCode {
 
-    INSERT_NULL(0), INSERT_NOTALL(100), INSERT_OK(200), INSERT_FAIL(400),
-    UPDATE_NULL(0), UPDATE_OK(200), UPDATE_FAIL(400),
-    DELETE_NULL(0), DELETE_NOTALL(100), DELETE_OK(200), DELETE_FAIL(400);
+    // For insert
+    public static final int INSERT_NULL=0;
+    public static final int INSERT_NOTALL=100;
+    public static final int INSERT_OK=200;
+    public static final int INSERT_FAIL=400;
 
-    ResultCode(int i) {
-    }
+    // For update
+    public static final int UPDATE_NULL=0;
+    public static final int UPDATE_OK=200;
+    public static final int UPDATE_FAIL=400;
+
+    // For delete
+    public static final int DELETE_NULL=0;
+    public static final int DELETE_NOTALL=100;
+    public static final int DELETE_OK=200;
+    public static final int DELETE_FAIL=400;
+
 }

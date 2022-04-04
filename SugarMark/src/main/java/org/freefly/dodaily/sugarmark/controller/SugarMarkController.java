@@ -1,5 +1,6 @@
 package org.freefly.dodaily.sugarmark.controller;
 
+import org.freefly.dodaily.sugarmark.common.ResultCode;
 import org.freefly.dodaily.sugarmark.common.SugarMarkPage;
 import org.freefly.dodaily.sugarmark.common.SugarMarkResult;
 import org.freefly.dodaily.sugarmark.entity.SugarMark;
@@ -37,7 +38,7 @@ public class SugarMarkController {
 
     @PostMapping("/insert")
     public int insert(@RequestBody List<SugarMark> list) {
-        if(list != null && list.size() >0) {
+        if (list != null && list.size() > 0) {
             for (SugarMark item : list) {
                 if (item.getcDate() == null) {
                     item.setCDate(new Date());
@@ -45,12 +46,44 @@ public class SugarMarkController {
             }
             int flag = service.createSugarMark(list);
             if (flag == list.size()) {
-                return 200;
+                return ResultCode.INSERT_OK;
             } else if (flag > 0) {
-                return 300;
+                return ResultCode.INSERT_NOTALL;
+            } else {
+                return ResultCode.INSERT_FAIL;
             }
+        } else {
+            return ResultCode.INSERT_NULL;
         }
+    }
 
-        return 400;
+    @PutMapping("/update")
+    public int update(@RequestBody SugarMark vo) {
+        if (vo == null) {
+            return ResultCode.UPDATE_NULL;
+        }
+        vo.setUDate(new Date());
+        int flag = service.updateSugarMark(vo);
+        if (flag == 1) {
+            return ResultCode.UPDATE_OK;
+        } else {
+            return ResultCode.UPDATE_FAIL;
+        }
+    }
+
+    @DeleteMapping("/delete")
+    public int delete(@RequestBody List<Integer> ids) {
+        if (ids != null && ids.size() > 0) {
+            int flag = service.deleteSugarMark(ids);
+            if (flag == ids.size()) {
+                return ResultCode.DELETE_OK;
+            } else if (flag > 0) {
+                return ResultCode.DELETE_NOTALL;
+            } else {
+                return ResultCode.DELETE_FAIL;
+            }
+        } else {
+            return ResultCode.DELETE_NULL;
+        }
     }
 }

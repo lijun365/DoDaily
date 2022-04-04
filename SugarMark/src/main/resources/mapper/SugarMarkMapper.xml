@@ -54,8 +54,8 @@
     <insert id="createSugarMark" useGeneratedKeys="true" keyColumn="id">
         insert into mark_dev(`status`,`days`,`desc`,`c_date`,`u_date`)
         values
-        <foreach collection="list" item="item" open="(" close=")" separator=",">
-            #{item.status},#{item.days},#{item.desc},#{item.cDate},#{item.uDate}
+        <foreach collection="list" item="item" separator=",">
+            (#{item.status},#{item.days},#{item.desc},#{item.cDate},#{item.uDate})
         </foreach>
     </insert>
 
@@ -63,7 +63,6 @@
         update mark_dev set
             `status`=#{vo.status},
             `desc`=#{vo.desc},
-            `c_date`=#{vo.cDate},
             `u_date`=#{vo.uDate}
         where `id`=#{vo.id}
     </update>

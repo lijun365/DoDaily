@@ -4,15 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SugarMark implements Serializable {
-    private int serialUID = -10101010;
+public class SugarMark {
     private Integer id;
     private Boolean status;
     private Integer days;

@@ -10,7 +10,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @SpringBootTest(classes = SugarMarkApplication.class)
 @RunWith(SpringRunner.class)
@@ -80,5 +82,41 @@ public class SugarMarkTest {
         }
         SugarMarkResult queryUDate = sugarMarkController.query(1, 10, sugarMark);
         System.out.println(queryUDate);
+    }
+
+    @Test
+    public void test_insert(){
+        List<SugarMark> list = new ArrayList<>();
+        int flag = sugarMarkController.insert(list);
+        System.out.println(flag); // 0
+
+        list.add(new SugarMark(-1,true,-1,"ok",new Date(), new Date()));
+        list.add(new SugarMark(-2,true,-2,"ok",new Date(), new Date()));
+        flag = sugarMarkController.insert(list); // 200
+        System.out.println(flag);
+    }
+
+    @Test
+    public void test_update(){
+        int flag = sugarMarkController.update(null); // 0
+        System.out.println(flag);
+        SugarMark sugarMark = new SugarMark(1,true,-1,"ok11",new Date(), new Date());
+        flag = sugarMarkController.update(sugarMark); // 200
+        System.out.println(flag);
+    }
+
+    @Test
+    public void test_delete(){
+        int flag = sugarMarkController.delete(null); // 0
+        System.out.println(flag);
+
+        List<Integer> ids=new ArrayList<>();
+        flag=sugarMarkController.delete(ids); // 0
+        System.out.println(flag);
+
+        ids.add(125);
+        ids.add(126);
+        flag=sugarMarkController.delete(ids); // 200
+        System.out.println(flag);
     }
 }
