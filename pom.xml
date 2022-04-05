@@ -9,6 +9,8 @@
     <modules>
         <module>SugarMark</module>
         <module>GateWay</module>
+        <module>RabbitMqService</module>
+        <module>UserService</module>
     </modules>
     <packaging>pom</packaging>
     <name>DoDaily</name>

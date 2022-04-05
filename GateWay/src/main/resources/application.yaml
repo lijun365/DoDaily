@@ -1,6 +1,6 @@
 server:
 # Set up server port
-  port: 6005
+  port: 16005
 
 spring:
   application:
@@ -24,10 +24,14 @@ spring:
           enabled: true
           lower-case-service-id: true
       routes:
-        - id: sugar
+        - id: sugarmark
           uri: lb://sugarmark
           predicates:
             - Path=/sugarmark/**
+        - id: userservice
+          uri: lb://userservice
+          predicates:
+            - Path=/user/**
       #default-filters:
 
 

@@ -5,10 +5,14 @@ import org.freefly.dodaily.sugarmark.common.SugarMarkPage;
 import org.freefly.dodaily.sugarmark.common.SugarMarkResult;
 import org.freefly.dodaily.sugarmark.entity.SugarMark;
 import org.freefly.dodaily.sugarmark.service.Impl.SugarMarkServiceImpl;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessageProperties;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.List;
 
@@ -18,8 +22,10 @@ public class SugarMarkController {
 
     @Autowired
     private SugarMarkServiceImpl service;
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
-    @GetMapping("/query/{curPage}/{pageSize}")
+    @GetMapping("/select/{curPage}/{pageSize}")
     public SugarMarkResult query(@PathVariable("curPage") int curPage, @PathVariable("pageSize") int pageSize, @RequestBody SugarMark vo) {
         SugarMarkPage sugarMarkPage = new SugarMarkPage(curPage, pageSize);
         List<SugarMark> list = service.findResultByPage(vo, sugarMarkPage);
@@ -46,6 +52,8 @@ public class SugarMarkController {
             }
             int flag = service.createSugarMark(list);
             if (flag == list.size()) {
+                Message message = new Message(ResultCode.S_INSERT_OK.getBytes(StandardCharsets.UTF_8), new MessageProperties());
+                //rabbitTemplate.convertAndSend();
                 return ResultCode.INSERT_OK;
             } else if (flag > 0) {
                 return ResultCode.INSERT_NOTALL;

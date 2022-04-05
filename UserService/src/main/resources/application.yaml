@@ -1,49 +1,28 @@
 server:
-# Set up server port
-  port: 16010
+  # Set up the server port
+  port: 16006
 
 spring:
   application:
-    name: sugarmark
+    name: userservice
   profiles:
     active: dev
-# Deploy the mysql8.0
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/dodaily?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
     username: root
     password: mysql404
     type: com.alibaba.druid.pool.DruidDataSource
-# Deploy nacos
   cloud:
-    sentinel:
-      transport:
-        dashboard: 127.0.0.1:6006
-      eager: true
     nacos:
       server-addr: 127.0.0.1:8848
-      config:
-        file-extension: yaml
-        timeout: 5000
       discovery:
         enabled: true
-  rabbitmq:
-    host: 127.0.0.1
-    port: 5672
-    username: root
-    password: root1234
-    virtual-host: /
+      config:
+        enabled: true
+
 # Deploy mybatis
 mybatis:
   mapper-locations: classpath*:/mapper/*.xml
   configuration:
     auto-mapping-behavior: full
-# Set up the log of mybatis
-logging:
-  level:
-    org:
-      freefly:
-        dodaily:
-          sugarmark:
-            mapper: debug
-

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.freefly.dodaily.userservice.mapper.IUserServiceDao">
+    <sql id="selectbase">
+        select `id`,
+               `name`,
+               `password`,
+               `nickname`,
+               `phone`,
+               `phone_region`,
+               `role`,
+               `email`
+        from `user`
+    </sql>
+
+    <resultMap id="user" type="org.freefly.dodaily.userservice.entity.User">
+        <id column="id" property="id"></id>
+        <result column="name" property="name"></result>
+        <result column="password" property="password"></result>
+        <result column="nickname" property="nickname"></result>
+        <result column="phone" property="phone"></result>
+        <result column="phone_region" property="phoneRegion"></result>
+        <result column="role" property="role"></result>
+        <result column="email" property="email"></result>
+    </resultMap>
+
+    <select id="getUserByName" resultMap="user">
+        <include refid="selectbase"></include>
+        where `name`=#{name}
+    </select>
+
+    <select id="getUserById" resultMap="user">
+        <include refid="selectbase"></include>
+        where `id`=#{id}
+    </select>
+
+    <insert id="Register" useGeneratedKeys="true" keyColumn="id">
+        insert into `user`(`name`, `password`, `nickname`, `phone`, `phone_region`, `role`, `email`)
+        values (#{user.name}, #{user.password}, #{user.nickname}, #{user.phone}, #{user.phoneRegion}, #{user.role}, #{user.email})
+    </insert>
+
+    <update id="updateUser">
+        update set `user`
+            `name`=#{user.name},
+            `password`=#{user.password},
+            `nickname`=#{user.nickname},
+            `phone`=#{user.phone},
+            `phone_region`=#{user.phoneRegion},
+            `role`=#{user.role},
+            `email`=#{user.email}
+        where `id`=#{user.id}
+    </update>
+
+    <delete id="deleteUser">
+        delete from `user` where `id`=#{id}
+    </delete>
+
+</mapper>
