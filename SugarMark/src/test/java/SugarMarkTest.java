@@ -23,12 +23,12 @@ public class SugarMarkTest {
 
     @Test
     public void test_queryWhenVoNullAndNotFound(){
-        SugarMarkResult queryNull = sugarMarkController.query(1, 10, null);
+        SugarMarkResult queryNull = sugarMarkController.query(1, 10, 10, null);
         System.out.println(queryNull);
 
         SugarMark sugarMark = new SugarMark();
         sugarMark.setId(-1);
-        SugarMarkResult queryNotFound1 = sugarMarkController.query(1, 10, sugarMark);
+        SugarMarkResult queryNotFound1 = sugarMarkController.query(1, 10, 10, sugarMark);
         System.out.println(queryNotFound1);
     }
 
@@ -38,25 +38,25 @@ public class SugarMarkTest {
 
         // Test for id
         sugarMark.setId(1);
-        SugarMarkResult queryId = sugarMarkController.query(1, 10, sugarMark);
+        SugarMarkResult queryId = sugarMarkController.query(1, 1, 10, sugarMark);
         System.out.println(queryId);
 
         // Test for status
         sugarMark.setId(null);
         sugarMark.setStatus(true);
-        SugarMarkResult queryStatus = sugarMarkController.query(1, 10, sugarMark);
+        SugarMarkResult queryStatus = sugarMarkController.query(1, 1, 10, sugarMark);
         System.out.println(queryStatus);
 
         // Test for days
         sugarMark.setStatus(null);
         sugarMark.setDays(2);
-        SugarMarkResult queryDays = sugarMarkController.query(1, 10, sugarMark);
+        SugarMarkResult queryDays = sugarMarkController.query(1, 1, 10, sugarMark);
         System.out.println(queryDays);
 
         // Test for desc
         sugarMark.setDays(null);
         sugarMark.setDesc("ok");
-        SugarMarkResult queryDesc = sugarMarkController.query(1, 10, sugarMark);
+        SugarMarkResult queryDesc = sugarMarkController.query(1, 1, 10, sugarMark);
         System.out.println(queryDesc);
 
         // Test for create date
@@ -68,7 +68,7 @@ public class SugarMarkTest {
             System.out.println("CDATE ERROR!");
             return;
         }
-        SugarMarkResult queryCDate = sugarMarkController.query(1, 10, sugarMark);
+        SugarMarkResult queryCDate = sugarMarkController.query(1, 1, 10, sugarMark);
         System.out.println(queryCDate);
 
         // Test for update date
@@ -80,19 +80,19 @@ public class SugarMarkTest {
             System.out.println("UDATE ERROR!");
             return;
         }
-        SugarMarkResult queryUDate = sugarMarkController.query(1, 10, sugarMark);
+        SugarMarkResult queryUDate = sugarMarkController.query(1, 1, 10, sugarMark);
         System.out.println(queryUDate);
     }
 
     @Test
     public void test_insert(){
         List<SugarMark> list = new ArrayList<>();
-        int flag = sugarMarkController.insert(list);
+        int flag = sugarMarkController.insert(list,1);
         System.out.println(flag); // 0
 
         list.add(new SugarMark(-1,true,-1,"ok",new Date(), new Date()));
         list.add(new SugarMark(-2,true,-2,"ok",new Date(), new Date()));
-        flag = sugarMarkController.insert(list); // 200
+        flag = sugarMarkController.insert(list,1); // 200
         System.out.println(flag);
     }
 

@@ -3,11 +3,11 @@
 
 <mapper namespace="org.freefly.dodaily.sugarmark.mapper.SugarMarkMapper">
     <sql id="selectbase">
-        select `id`,`status`,`days`,`desc`,`c_date`,`u_date` from `mark_dev`
+        select `id`, `status`, `days`, `desc`, `c_date`, `u_date` from `sugarmark`
     </sql>
 
     <sql id="searchbase">
-        where 1=1
+        where `user_id` = #{userId}
         <if test="vo != null">
             <if test="vo.id != null">
                 and `id`=#{vo.id}
@@ -47,28 +47,28 @@
     </select>
 
     <select id="getTotalNumber" resultType="java.lang.Integer">
-        select count(`id`) from `mark_dev`
+        select count(`id`) from `sugarmark`
         <include refid="searchbase"></include>
     </select>
 
     <insert id="createSugarMark" useGeneratedKeys="true" keyColumn="id">
-        insert into mark_dev(`status`,`days`,`desc`,`c_date`,`u_date`)
+        insert into sugarmark(`status`,`days`,`desc`,`c_date`,`u_date`,`user_id`)
         values
         <foreach collection="list" item="item" separator=",">
-            (#{item.status},#{item.days},#{item.desc},#{item.cDate},#{item.uDate})
+            (#{item.status},#{item.days},#{item.desc},#{item.cDate},#{item.uDate},#{userId})
         </foreach>
     </insert>
 
     <update id="updateSugarMark">
-        update mark_dev set
-            `status`=#{vo.status},
+        update sugarmark
+        set `status`=#{vo.status},
             `desc`=#{vo.desc},
             `u_date`=#{vo.uDate}
-        where `id`=#{vo.id}
+        where `id` = #{vo.id}
     </update>
 
     <delete id="deleteSugarMark">
-        delete from mark where `id` in 
+        delete from sugarmark where `id` in
         <foreach collection="list" item="item" open="(" close=")" separator=",">
             #{item}
         </foreach>

@@ -25,32 +25,32 @@ public class SugarMarkController {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
-    @GetMapping("/select/{curPage}/{pageSize}")
-    public SugarMarkResult query(@PathVariable("curPage") int curPage, @PathVariable("pageSize") int pageSize, @RequestBody SugarMark vo) {
+    @GetMapping("/select/{userId}/{curPage}/{pageSize}")
+    public SugarMarkResult query(@PathVariable("userId") int userId, @PathVariable("curPage") int curPage, @PathVariable("pageSize") int pageSize, @RequestBody SugarMark vo) {
         SugarMarkPage sugarMarkPage = new SugarMarkPage(curPage, pageSize);
-        List<SugarMark> list = service.findResultByPage(vo, sugarMarkPage);
+        List<SugarMark> list = service.findResultByPage(vo, sugarMarkPage, userId);
         if (list != null && list.size() != 0) {
-            sugarMarkPage.setTotal(service.getTotalNumber(vo));
+            sugarMarkPage.setTotal(service.getTotalNumber(vo, userId));
             SugarMarkResult success = SugarMarkResult.getSuccess(list);
             success.setSugarMarkPage(sugarMarkPage);
             return success;
         } else {
-            sugarMarkPage.setTotal(service.getTotalNumber(vo));
+            sugarMarkPage.setTotal(service.getTotalNumber(vo, userId));
             SugarMarkResult fail = SugarMarkResult.getFail("Sorry, The result is empty!");
             fail.setSugarMarkPage(sugarMarkPage);
             return fail;
         }
     }
 
-    @PostMapping("/insert")
-    public int insert(@RequestBody List<SugarMark> list) {
+    @PostMapping("/insert/{id}")
+    public int insert(@RequestBody List<SugarMark> list, @PathVariable("id") int userId) {
         if (list != null && list.size() > 0) {
             for (SugarMark item : list) {
                 if (item.getcDate() == null) {
                     item.setCDate(new Date());
                 }
             }
-            int flag = service.createSugarMark(list);
+            int flag = service.createSugarMark(list, userId);
             if (flag == list.size()) {
                 Message message = new Message(ResultCode.S_INSERT_OK.getBytes(StandardCharsets.UTF_8), new MessageProperties());
                 //rabbitTemplate.convertAndSend();

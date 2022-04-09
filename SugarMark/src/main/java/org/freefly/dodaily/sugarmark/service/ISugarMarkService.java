@@ -11,35 +11,32 @@ import java.util.List;
 public interface ISugarMarkService {
 
     /**
-     *
      * @param vo
      * @param page
      */
-    public List<SugarMark> findResultByPage(@Param("vo")SugarMark vo, @Param("page") SugarMarkPage page);
+    public List<SugarMark> findResultByPage(@Param("vo") SugarMark vo, @Param("page") SugarMarkPage page, int userId);
 
     /**
      * This get total number is not for all datas, it is just for the all datas follow vo
+     *
      * @param vo
      * @return int
      */
-    public int getTotalNumber(@Param("vo")SugarMark vo);
+    public int getTotalNumber(@Param("vo") SugarMark vo, int userId);
 
     /**
-     *
      * @param voList
      * @return
      */
-    public int createSugarMark(List<SugarMark> voList);
+    public int createSugarMark(List<SugarMark> voList, int userId);
 
     /**
-     *
      * @param vo
      * @return
      */
     public int updateSugarMark(SugarMark vo);
 
     /**
-     *
      * @param ids
      * @return
      */

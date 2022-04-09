@@ -16,19 +16,19 @@ public class SugarMarkServiceImpl implements ISugarMarkService {
     private SugarMarkMapper sugarMarkMapper;
 
     @Override
-    public List<SugarMark> findResultByPage(SugarMark vo, SugarMarkPage page) {
-        List<SugarMark> list = sugarMarkMapper.findResultByPage(vo, page);
+    public List<SugarMark> findResultByPage(SugarMark vo, SugarMarkPage page, int userId) {
+        List<SugarMark> list = sugarMarkMapper.findResultByPage(vo, page, userId);
         return list;
     }
 
     @Override
-    public int getTotalNumber(SugarMark vo) {
-        return sugarMarkMapper.getTotalNumber(vo);
+    public int getTotalNumber(SugarMark vo, int userId) {
+        return sugarMarkMapper.getTotalNumber(vo, userId);
     }
 
     @Override
-    public int createSugarMark(List<SugarMark> voList) {
-        return sugarMarkMapper.createSugarMark(voList);
+    public int createSugarMark(List<SugarMark> voList, int userId) {
+        return sugarMarkMapper.createSugarMark(voList, userId);
     }
 
     @Override
