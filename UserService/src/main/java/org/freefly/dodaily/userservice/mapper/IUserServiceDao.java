@@ -4,6 +4,8 @@ import org.apache.ibatis.annotations.Param;
 import org.freefly.dodaily.userservice.entity.User;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface IUserServiceDao {
 
@@ -16,4 +18,8 @@ public interface IUserServiceDao {
     public int updateUser(@Param("user") User user);
 
     public int deleteUser(@Param("id") int id);
+
+    List<String> getAllUserName();
+
+    int getNumberOfUser();
 }

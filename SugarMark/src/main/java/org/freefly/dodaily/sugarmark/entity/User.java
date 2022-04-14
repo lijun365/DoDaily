@@ -1,4 +1,4 @@
-package org.freefly.dodaily.userservice.entity;
+package org.freefly.dodaily.sugarmark.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

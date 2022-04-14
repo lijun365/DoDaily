@@ -6,6 +6,8 @@ import org.freefly.dodaily.userservice.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService implements IUserService {
 
@@ -29,7 +31,7 @@ public class UserService implements IUserService {
 
     @Override
     public User getUserById(int id) {
-        return null;
+        return dao.getUserById(id);
     }
 
     @Override
@@ -40,5 +42,15 @@ public class UserService implements IUserService {
     @Override
     public int deleteUser(int id) {
         return dao.deleteUser(id);
+    }
+
+    @Override
+    public List<String> getAllUserName() {
+        return dao.getAllUserName();
+    }
+
+    @Override
+    public int getNumberOfUser() {
+        return dao.getNumberOfUser();
     }
 }

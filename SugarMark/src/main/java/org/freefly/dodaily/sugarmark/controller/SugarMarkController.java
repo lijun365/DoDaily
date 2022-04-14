@@ -1,9 +1,11 @@
 package org.freefly.dodaily.sugarmark.controller;
 
+import org.freefly.dodaily.sugarmark.client.UserServiceClient;
 import org.freefly.dodaily.sugarmark.common.ResultCode;
 import org.freefly.dodaily.sugarmark.common.SugarMarkPage;
 import org.freefly.dodaily.sugarmark.common.SugarMarkResult;
 import org.freefly.dodaily.sugarmark.entity.SugarMark;
+import org.freefly.dodaily.sugarmark.entity.User;
 import org.freefly.dodaily.sugarmark.service.Impl.SugarMarkServiceImpl;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageProperties;
@@ -12,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.List;
@@ -23,34 +27,70 @@ public class SugarMarkController {
     @Autowired
     private SugarMarkServiceImpl service;
     @Autowired
-    private RabbitTemplate rabbitTemplate;
+    private UserServiceClient userServiceClient;
 
-    @GetMapping("/select/{userId}/{curPage}/{pageSize}")
-    public SugarMarkResult query(@PathVariable("userId") int userId, @PathVariable("curPage") int curPage, @PathVariable("pageSize") int pageSize, @RequestBody SugarMark vo) {
+    @GetMapping("/select/{curPage}/{pageSize}")
+    public SugarMarkResult query(HttpServletRequest request, @PathVariable("curPage") int curPage, @PathVariable("pageSize") int pageSize, @RequestBody SugarMark vo) {
+
         SugarMarkPage sugarMarkPage = new SugarMarkPage(curPage, pageSize);
-        List<SugarMark> list = service.findResultByPage(vo, sugarMarkPage, userId);
-        if (list != null && list.size() != 0) {
-            sugarMarkPage.setTotal(service.getTotalNumber(vo, userId));
-            SugarMarkResult success = SugarMarkResult.getSuccess(list);
-            success.setSugarMarkPage(sugarMarkPage);
-            return success;
-        } else {
-            sugarMarkPage.setTotal(service.getTotalNumber(vo, userId));
-            SugarMarkResult fail = SugarMarkResult.getFail("Sorry, The result is empty!");
-            fail.setSugarMarkPage(sugarMarkPage);
-            return fail;
+        Cookie[] cookies = request.getCookies();
+        if (cookies == null || cookies.length == 0) {
+            return SugarMarkResult.getFail("The token is null!");
         }
+        String token = null;
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals("DODAILY_USER")) {
+                token = cookie.getValue();
+            }
+        }
+        if (token == null) {
+            return SugarMarkResult.getFail("The token is null!");
+        }
+        // Invoke userservice to get user
+        User userById = userServiceClient.getUserById(token);
+        if (userById != null) {
+            final Integer userId = userById.getId();
+            List<SugarMark> list = service.findResultByPage(vo, sugarMarkPage, userId);
+            if (list != null && list.size() != 0) {
+                sugarMarkPage.setTotal(service.getTotalNumber(vo, userId));
+                SugarMarkResult success = SugarMarkResult.getSuccess(list);
+                success.setSugarMarkPage(sugarMarkPage);
+                return success;
+            } else {
+                sugarMarkPage.setTotal(service.getTotalNumber(vo, userId));
+                SugarMarkResult fail = SugarMarkResult.getFail("Sorry, The result is empty!");
+                fail.setSugarMarkPage(sugarMarkPage);
+                return fail;
+            }
+        }
+
+        return SugarMarkResult.getFail("User not found!");
     }
 
-    @PostMapping("/insert/{id}")
-    public int insert(@RequestBody List<SugarMark> list, @PathVariable("id") int userId) {
+    @PostMapping("/insert")
+    public int insert(@RequestBody List<SugarMark> list, HttpServletRequest request) {
         if (list != null && list.size() > 0) {
             for (SugarMark item : list) {
                 if (item.getcDate() == null) {
                     item.setCDate(new Date());
                 }
             }
-            int flag = service.createSugarMark(list, userId);
+            Cookie[] cookies = request.getCookies();
+            if (cookies == null || cookies.length == 0) {
+                return ResultCode.INSERT_NOTSUIT;
+            }
+            String token = null;
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("DODAILY_USER")) {
+                    token = cookie.getValue();
+                    break;
+                }
+            }
+            if (token == null) {
+                return ResultCode.INSERT_NOTSUIT;
+            }
+            User userById = userServiceClient.getUserById(token);
+            int flag = service.createSugarMark(list, userById.getId());
             if (flag == list.size()) {
                 Message message = new Message(ResultCode.S_INSERT_OK.getBytes(StandardCharsets.UTF_8), new MessageProperties());
                 //rabbitTemplate.convertAndSend();

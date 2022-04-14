@@ -36,12 +36,14 @@
     </select>
 
     <insert id="Register" useGeneratedKeys="true" keyColumn="id">
-        insert into `user`(`name`, `password`, `nickname`, `phone`, `phone_region`, `role`, `email`)
-        values (#{user.name}, #{user.password}, #{user.nickname}, #{user.phone}, #{user.phoneRegion}, #{user.role}, #{user.email})
+        insert into `user`(`id`, `name`, `password`, `nickname`, `phone`, `phone_region`, `role`, `email`)
+        values (#{user.id}, #{user.name}, #{user.password}, #{user.nickname}, #{user.phone}, #{user.phoneRegion},
+                #{user.role}, #{user.email})
     </insert>
 
     <update id="updateUser">
-        update set `user`
+        update `user`
+        set `id`=#{user.id},
             `name`=#{user.name},
             `password`=#{user.password},
             `nickname`=#{user.nickname},
@@ -49,11 +51,23 @@
             `phone_region`=#{user.phoneRegion},
             `role`=#{user.role},
             `email`=#{user.email}
-        where `id`=#{user.id}
+        where `id` = #{user.id}
     </update>
 
     <delete id="deleteUser">
-        delete from `user` where `id`=#{id}
+        delete
+        from `user`
+        where `id` = #{id}
     </delete>
+
+    <select id="getAllUserName" resultType="java.lang.String">
+        select `name`
+        from `user`
+    </select>
+
+    <select id="getNumberOfUser" resultType="integer">
+        select count(`id`)
+        from `user`
+    </select>
 
 </mapper>

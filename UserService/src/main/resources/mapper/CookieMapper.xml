@@ -20,7 +20,7 @@
 
     <insert id="insertCookie">
         insert into `usercookie`(`user_id`, `cookie`, `datetime`)
-        values (#{userCookie.userId}, #{userCookie.cookie}, #{userCookie.datetime})
+        values (#{cookie.userId}, #{cookie.cookie}, #{cookie.datetime})
     </insert>
 
     <select id="selectCookie" resultMap="cookie_base">

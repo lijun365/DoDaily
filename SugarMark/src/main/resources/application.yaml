@@ -38,6 +38,7 @@ mybatis:
   mapper-locations: classpath*:/mapper/*.xml
   configuration:
     auto-mapping-behavior: full
+# Deploy the feign client
 # Set up the log of mybatis
 logging:
   level:
@@ -46,4 +47,8 @@ logging:
         dodaily:
           sugarmark:
             mapper: debug
+feign:
+  httpclient:
+    connection-timeout: 5000
+
 

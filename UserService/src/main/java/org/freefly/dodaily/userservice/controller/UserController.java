@@ -1,5 +1,6 @@
 package org.freefly.dodaily.userservice.controller;
 
+import io.jsonwebtoken.Claims;
 import org.freefly.dodaily.userservice.common.ResultCode;
 import org.freefly.dodaily.userservice.common.UserResult;
 import org.freefly.dodaily.userservice.entity.User;
@@ -9,12 +10,13 @@ import org.freefly.dodaily.userservice.service.Impl.UserService;
 import org.freefly.dodaily.userservice.tool.CommonTool;
 import org.freefly.dodaily.userservice.tool.JWTTool;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
+import java.util.List;
 
 @RestController
 public class UserController {
@@ -31,6 +33,15 @@ public class UserController {
     public int Register(@RequestBody User user) {
         boolean flag = CommonTool.userCheck(user);
         if (flag) {
+            int number = userService.getNumberOfUser() + 1;
+            List<String> userNames = userService.getAllUserName();
+            for (String item : userNames) {
+                if (user.getName().equals(item)) {
+                    System.out.println("Username repeat: " + item);
+                    return ResultCode.INSERT_FAIL;
+                }
+            }
+            user.setId(number);
             user.setPassword(CommonTool.md5Encrypt(user.getPassword()));
             int daoFlag = userService.Register(user);
             if (daoFlag == 1) {
@@ -44,7 +55,8 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public UserResult login(@RequestBody User user, HttpServletRequest request, HttpServletResponse response) {
+    @Transactional
+    public UserResult login(@RequestBody User user, HttpServletResponse response) {
         if (user == null) {
             return UserResult.fail(0, "User is null.");
         }
@@ -55,14 +67,15 @@ public class UserController {
         user.setPassword(CommonTool.md5Encrypt(user.getPassword()));
         if (userByName != null && user.getPassword().equals(userByName.getPassword())) {
             String token = JWTTool.generateToken(userByName.getId(), userByName.getName());
-            UserCookie userCookie = new UserCookie(userByName.getId(),token, new Date());
+            UserCookie userCookie = new UserCookie(userByName.getId(), token, new Date());
+            System.out.println("Had generated jwtToken(cookie): " + token);
             cookieService.deleteCookies(userByName.getId());
             int flag = cookieService.insertCookie(userCookie);
-            if(flag == 1) {
+            if (flag == 1) {
                 Cookie cookie = new Cookie(cookieName, token);
                 response.addCookie(cookie);
                 return UserResult.success(200, "Login success!");
-            }else {
+            } else {
                 return UserResult.fail(400, "Login Failed! Please Try again!");
             }
         } else {
@@ -70,10 +83,27 @@ public class UserController {
         }
     }
 
-    @GetMapping("/select/{id}")
-    public UserResult getUserById(@PathVariable("id") int id) {
-        // Pending
-        return null;
+    @GetMapping("/logout/{id}")
+    public int logout(@PathVariable("id") int userId, HttpServletResponse response) {
+        Cookie cookie = new Cookie(cookieName, "");
+        response.addCookie(cookie);
+        try {
+            cookieService.deleteCookies(userId);
+        } catch (Exception e) {
+            System.out.println("Cookie is deleted Wrong! UserId is: " + userId);
+        }
+        return ResultCode.DELETE_OK;
+    }
+
+    @GetMapping("/selectById")
+    public User getUserById(String token) {
+        Claims claims = JWTTool.getClaims(token);
+        if (claims != null) {
+            int userId = (int) claims.get("DODAILY_USERID");
+            return userService.getUserById(userId);
+        } else {
+            return null;
+        }
     }
 
     @PutMapping("/update")
@@ -82,7 +112,7 @@ public class UserController {
             return ResultCode.UPDATE_NULL;
         }
         int flag = userService.updateUser(user);
-        if(flag==1){
+        if (flag == 1) {
             return ResultCode.UPDATE_OK;
         }
         return ResultCode.UPDATE_FAIL;
@@ -91,7 +121,7 @@ public class UserController {
     @DeleteMapping("/delete/{id}")
     public int deleteUser(@PathVariable("id") int id) {
         int flag = userService.deleteUser(id);
-        if(flag==1){
+        if (flag == 1) {
             return ResultCode.DELETE_OK;
         }
 

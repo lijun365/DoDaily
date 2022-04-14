@@ -2,6 +2,8 @@ package org.freefly.dodaily.userservice.service;
 
 import org.freefly.dodaily.userservice.entity.User;
 
+import java.util.List;
+
 public interface IUserService {
 
     public int Register(User user);
@@ -15,4 +17,8 @@ public interface IUserService {
     public int updateUser(User user);
 
     public int deleteUser(int id);
+
+    List<String> getAllUserName();
+
+    int getNumberOfUser();
 }
