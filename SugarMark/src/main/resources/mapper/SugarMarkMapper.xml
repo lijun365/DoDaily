@@ -30,7 +30,7 @@
         </if>
     </sql>
 
-    <resultMap id="sugarmark" type="org.freefly.dodaily.sugarmark.entity.SugarMark">
+    <resultMap id="sugarmark" type="org.freefly.dodaily.common.entity.SugarMark">
         <id column="id" property="id"></id>
         <result column="status" property="status"></result>
         <result column="days" property="days"></result>

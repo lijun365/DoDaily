@@ -1,7 +1,7 @@
 package org.freefly.dodaily.userservice.mapper;
 
 import org.apache.ibatis.annotations.Param;
-import org.freefly.dodaily.userservice.entity.UserCookie;
+import org.freefly.dodaily.common.entity.UserCookie;
 import org.springframework.stereotype.Repository;
 
 @Repository

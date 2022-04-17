@@ -2,7 +2,7 @@ package org.freefly.dodaily.sugarmark.service;
 
 import org.apache.ibatis.annotations.Param;
 import org.freefly.dodaily.sugarmark.common.SugarMarkPage;
-import org.freefly.dodaily.sugarmark.entity.SugarMark;
+import org.freefly.dodaily.common.entity.SugarMark;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

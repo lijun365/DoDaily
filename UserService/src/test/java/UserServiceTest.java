@@ -2,7 +2,7 @@ import org.freefly.dodaily.userservice.UserServiceApplication;
 import org.freefly.dodaily.userservice.common.UserResult;
 import org.freefly.dodaily.userservice.controller.CookieController;
 import org.freefly.dodaily.userservice.controller.UserController;
-import org.freefly.dodaily.userservice.entity.User;
+import org.freefly.dodaily.common.entity.User;
 import org.freefly.dodaily.userservice.tool.JWTTool;
 import org.junit.Test;
 import org.junit.runner.RunWith;

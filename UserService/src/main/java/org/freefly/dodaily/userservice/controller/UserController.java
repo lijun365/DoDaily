@@ -3,8 +3,8 @@ package org.freefly.dodaily.userservice.controller;
 import io.jsonwebtoken.Claims;
 import org.freefly.dodaily.userservice.common.ResultCode;
 import org.freefly.dodaily.userservice.common.UserResult;
-import org.freefly.dodaily.userservice.entity.User;
-import org.freefly.dodaily.userservice.entity.UserCookie;
+import org.freefly.dodaily.common.entity.User;
+import org.freefly.dodaily.common.entity.UserCookie;
 import org.freefly.dodaily.userservice.service.Impl.CookieService;
 import org.freefly.dodaily.userservice.service.Impl.UserService;
 import org.freefly.dodaily.userservice.tool.CommonTool;
@@ -54,7 +54,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     @Transactional
     public UserResult login(@RequestBody User user, HttpServletResponse response) {
         if (user == null) {

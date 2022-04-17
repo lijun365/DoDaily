@@ -1,6 +1,6 @@
 package org.freefly.dodaily.userservice.tool;
 
-import org.freefly.dodaily.userservice.entity.User;
+import org.freefly.dodaily.common.entity.User;
 import org.springframework.util.DigestUtils;
 import sun.security.provider.MD5;
 

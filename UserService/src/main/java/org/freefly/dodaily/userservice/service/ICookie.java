@@ -1,6 +1,6 @@
 package org.freefly.dodaily.userservice.service;
 
-import org.freefly.dodaily.userservice.entity.UserCookie;
+import org.freefly.dodaily.common.entity.UserCookie;
 
 public interface ICookie {
 

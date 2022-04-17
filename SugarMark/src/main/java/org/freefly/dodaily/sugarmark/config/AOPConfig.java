@@ -4,7 +4,7 @@ import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.freefly.dodaily.sugarmark.client.UserServiceClient;
-import org.freefly.dodaily.sugarmark.entity.User;
+import org.freefly.dodaily.common.entity.User;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;

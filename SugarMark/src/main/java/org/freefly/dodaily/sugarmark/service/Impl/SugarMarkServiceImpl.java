@@ -1,7 +1,7 @@
 package org.freefly.dodaily.sugarmark.service.Impl;
 
 import org.freefly.dodaily.sugarmark.common.SugarMarkPage;
-import org.freefly.dodaily.sugarmark.entity.SugarMark;
+import org.freefly.dodaily.common.entity.SugarMark;
 import org.freefly.dodaily.sugarmark.mapper.SugarMarkMapper;
 import org.freefly.dodaily.sugarmark.service.ISugarMarkService;
 import org.springframework.beans.factory.annotation.Autowired;

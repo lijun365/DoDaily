@@ -11,6 +11,7 @@
         <module>GateWay</module>
         <module>RabbitMqService</module>
         <module>UserService</module>
+        <module>CommonService</module>
     </modules>
     <packaging>pom</packaging>
     <name>DoDaily</name>

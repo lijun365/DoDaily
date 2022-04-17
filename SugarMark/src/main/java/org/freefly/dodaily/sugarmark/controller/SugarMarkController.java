@@ -4,19 +4,15 @@ import org.freefly.dodaily.sugarmark.client.UserServiceClient;
 import org.freefly.dodaily.sugarmark.common.ResultCode;
 import org.freefly.dodaily.sugarmark.common.SugarMarkPage;
 import org.freefly.dodaily.sugarmark.common.SugarMarkResult;
-import org.freefly.dodaily.sugarmark.entity.SugarMark;
-import org.freefly.dodaily.sugarmark.entity.User;
+import org.freefly.dodaily.common.entity.SugarMark;
+import org.freefly.dodaily.common.entity.User;
 import org.freefly.dodaily.sugarmark.service.Impl.SugarMarkServiceImpl;
-import org.springframework.amqp.core.Message;
-import org.springframework.amqp.core.MessageProperties;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.List;
 

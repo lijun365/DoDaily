@@ -12,7 +12,7 @@
         delete from `usercookie` where `user_id`=#{id}
     </delete>
 
-    <resultMap id="cookie_base" type="org.freefly.dodaily.userservice.entity.UserCookie">
+    <resultMap id="cookie_base" type="org.freefly.dodaily.common.entity.UserCookie">
         <result column="user_id" property="userId"></result>
         <result column="cookie" property="cookie"></result>
         <result column="datetime" property="datetime"></result>

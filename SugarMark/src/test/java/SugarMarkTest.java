@@ -1,7 +1,7 @@
 import org.freefly.dodaily.sugarmark.SugarMarkApplication;
 import org.freefly.dodaily.sugarmark.common.SugarMarkResult;
 import org.freefly.dodaily.sugarmark.controller.SugarMarkController;
-import org.freefly.dodaily.sugarmark.entity.SugarMark;
+import org.freefly.dodaily.common.entity.SugarMark;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

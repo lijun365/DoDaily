@@ -1,7 +1,7 @@
 package org.freefly.dodaily.sugarmark.common;
 
 import lombok.Data;
-import org.freefly.dodaily.sugarmark.entity.SugarMark;
+import org.freefly.dodaily.common.entity.SugarMark;
 
 import java.util.List;
 

@@ -1,7 +1,6 @@
 package org.freefly.dodaily.userservice.common;
 
 import lombok.Data;
-import org.freefly.dodaily.userservice.entity.User;
 
 @Data
 public class UserResult {

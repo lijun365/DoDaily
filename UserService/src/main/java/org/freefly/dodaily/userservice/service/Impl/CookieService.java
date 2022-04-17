@@ -1,6 +1,6 @@
 package org.freefly.dodaily.userservice.service.Impl;
 
-import org.freefly.dodaily.userservice.entity.UserCookie;
+import org.freefly.dodaily.common.entity.UserCookie;
 import org.freefly.dodaily.userservice.mapper.ICookieDao;
 import org.freefly.dodaily.userservice.service.ICookie;
 import org.springframework.beans.factory.annotation.Autowired;

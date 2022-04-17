@@ -1,6 +1,5 @@
 package org.freefly.dodaily.gateway.config;
 
-import org.freefly.dodaily.gateway.client.SugarMarkClient;
 import org.freefly.dodaily.gateway.client.UserServiceClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -8,7 +7,6 @@ import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpCookie;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
@@ -21,14 +19,8 @@ public class EntryPromiss implements GlobalFilter {
     @Autowired
     private UserServiceClient userServiceClient;
 
-    @Autowired
-    private SugarMarkClient sugarMarkClient;
-
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-
-        String hello = sugarMarkClient.hello();
-        System.out.println(hello);
 
         MultiValueMap<String, HttpCookie> cookies = exchange.getRequest().getCookies();
         HttpCookie cookie = cookies.getFirst(cookieName);

@@ -1,7 +1,7 @@
 package org.freefly.dodaily.userservice.controller;
 
 import io.jsonwebtoken.Claims;
-import org.freefly.dodaily.userservice.entity.UserCookie;
+import org.freefly.dodaily.common.entity.UserCookie;
 import org.freefly.dodaily.userservice.service.Impl.CookieService;
 import org.freefly.dodaily.userservice.tool.JWTTool;
 import org.springframework.beans.factory.annotation.Autowired;
