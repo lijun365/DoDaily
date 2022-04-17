@@ -16,7 +16,7 @@ import reactor.core.publisher.Mono;
 @Order(-1)
 //@Component
 public class EntryPromiss implements GlobalFilter {
-    private final String cookieName = "DODAILY_USER";
+    private final String cookieName = "dodaily_user";
 
     @Autowired
     private UserServiceClient userServiceClient;

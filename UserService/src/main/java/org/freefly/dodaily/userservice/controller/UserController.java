@@ -21,7 +21,7 @@ import java.util.List;
 @RestController
 public class UserController {
 
-    private final String cookieName = "DODAILY_USER";
+    private final String cookieName = "dodaily_user";
 
     @Autowired
     private UserService userService;
@@ -96,21 +96,24 @@ public class UserController {
     }
 
     @GetMapping("/selectById")
-    public User getUserById(String token) {
+    public User getUserById(@RequestBody String token) {
         Claims claims = JWTTool.getClaims(token);
         if (claims != null) {
             int userId = (int) claims.get("DODAILY_USERID");
-            return userService.getUserById(userId);
+            User userById = userService.getUserById(userId);
+            userById.setPassword(null);
+            return userById;
         } else {
             return null;
         }
     }
 
     @PutMapping("/update")
-    public int updateUser(@PathVariable("user") User user) {
+    public int updateUser(@RequestBody User user) {
         if (user == null || user.getId() == null) {
             return ResultCode.UPDATE_NULL;
         }
+        user.setPassword(CommonTool.md5Encrypt(user.getPassword()));
         int flag = userService.updateUser(user);
         if (flag == 1) {
             return ResultCode.UPDATE_OK;

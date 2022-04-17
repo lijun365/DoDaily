@@ -33,12 +33,14 @@ spring:
     username: root
     password: root1234
     virtual-host: /
+    publisher-confirm-type: correlated
+    template:
+      mandatory: true
 # Deploy mybatis
 mybatis:
   mapper-locations: classpath*:/mapper/*.xml
   configuration:
     auto-mapping-behavior: full
-# Deploy the feign client
 # Set up the log of mybatis
 logging:
   level:

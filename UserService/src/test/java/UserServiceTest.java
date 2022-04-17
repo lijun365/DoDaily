@@ -75,12 +75,23 @@ public class UserServiceTest {
     }
 
     @Test
+    public void register(){
+        User user = new User(0, "freefly", "12345678", "freefly");
+        userController.Register(user);
+    }
+
+    @Test
+    public void login(){
+        User user = new User(1, "freefly", "1234", "freefly");
+        UserResult login = userController.login(user, response);
+        System.out.println(login);
+    }
+
+    @Test
     public void update() {
         // make a virtual user to create
-        User user = new User("demo", "demo", "demo");
-        userController.Register(user);
+        User user = new User(1,"freefly", "1234", "freefly");
 
-        user.setName("demo2");
         int i1 = userController.updateUser(user);
         System.out.println(i1);
     }

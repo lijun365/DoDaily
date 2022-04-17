@@ -19,7 +19,7 @@ public class CookieController {
     public int validate(HttpCookie cookie) {
         String cookieValue = cookie.getValue();
         boolean flag = false;
-        if (JWTTool.volidateToken(cookieValue)) {
+        if (!JWTTool.volidateToken(cookieValue)) {
             return 0;
         }
         Claims claims = JWTTool.getClaims(cookieValue);
