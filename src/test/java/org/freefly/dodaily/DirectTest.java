@@ -12,7 +12,10 @@ public class DirectTest {
 
     public static void main(String[] args) {
         // 1.ISDateTest
-        ISDateTest();
+        //ISDateTest();
+
+        // 2
+        stackTraceElementTest();
     }
 
     static void ISDateTest() {
@@ -22,5 +25,12 @@ public class DirectTest {
 
         // parseDateFromString
         System.out.println(ISDate.getInstance().parseDateFromString(dateStr));
+    }
+
+    static void stackTraceElementTest(){
+        StackTraceElement[] stcs=Thread.currentThread().getStackTrace();
+        for (StackTraceElement stc : stcs) {
+            System.out.println(stc);
+        }
     }
 }
