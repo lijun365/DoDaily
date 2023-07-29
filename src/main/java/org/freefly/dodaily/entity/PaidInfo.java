@@ -2,6 +2,8 @@ package org.freefly.dodaily.entity;
 
 import lombok.Data;
 
+import java.util.Date;
+
 /**
  * Entity for Paid service
  * @usage new PaidInfo
@@ -16,9 +18,11 @@ import lombok.Data;
 @Data
 public class PaidInfo {
     private Integer id;
+    private Integer userId;
     private PaidCategory paidCategory;
     private Double expense;
-    private String createTime;
-    private String updateTime;
+    private String comment;
+    private Date createTime;
+    private Date updateTime;
 
 }

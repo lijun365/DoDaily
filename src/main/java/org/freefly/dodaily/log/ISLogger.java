@@ -1,5 +1,7 @@
 package org.freefly.dodaily.log;
 
+import org.freefly.dodaily.common.ISDate;
+
 /**
  * Tool for all
  * @usage ISLogger.getInstance().*
@@ -41,7 +43,7 @@ public class ISLogger {
             }
         }
     }
-    public void logInfo(LogDestinction des, String context, StackTraceElement ste){
+    public void logInfo(String context, StackTraceElement ste){
         if(LogLevel.Info.isGte(logLevel)){
             if(LogDestinction.Console==logDestinction){
                 logToConsole(context, ste);
@@ -51,7 +53,7 @@ public class ISLogger {
             }
         }
     }
-    public void logAbnormal(LogDestinction des, String context, StackTraceElement ste){
+    public void logAbnormal(String context, StackTraceElement ste){
         if(LogLevel.Abnormal.isGte(logLevel)){
             if(LogDestinction.Console==logDestinction){
                 logToConsole(context, ste);
@@ -61,7 +63,7 @@ public class ISLogger {
             }
         }
     }
-    public void logError(LogDestinction des, String context, StackTraceElement ste){
+    public void logError(String context, StackTraceElement ste){
         if(LogLevel.Error.isGte(logLevel)){
             if(LogDestinction.Console==logDestinction){
                 logToConsole(context, ste);
@@ -73,7 +75,8 @@ public class ISLogger {
     }
 
     private void logToConsole(String context, StackTraceElement ste){
-
+        System.out.println(ISDate.getInstance().getDateAsString()+" "+ste.toString()+": "+context);
     }
+
     public void logToFile(String context, StackTraceElement ste){}
 }
