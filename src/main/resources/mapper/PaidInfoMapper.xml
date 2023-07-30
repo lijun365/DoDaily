@@ -3,5 +3,31 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="org.freefly.dodaily.dao.PaidInfoIF">
-    <sql id="baseQuery"></sql>
+    <sql id="baseQuery">
+        where   userId=#{pis.userId}
+            and
+            <if test="#{pis.tr1} != null and #{pis.tr2} != null">
+                ((createTime &gt; #{pis.tr1} and createTime &lt; #{pis.tr2}) or createTime = #{pis.tr1} or createTime = #{pis.tr2})
+            </if>
+            and
+            <if test="#{pis.category} != null">
+                categoty=#{pis.category}
+            </if>
+            and
+            <if test="#{pis.comment} != null">
+                comment like #{comment}
+            </if>
+    </sql>
+
+    <select id="getList">
+        select id,userId,paidCategory,expense,comment,createTime,updateTime from paidinfo 
+        <include refid="baseQuery"></include>
+    </select>
+    
+    <insert id="insert">
+        insert into paidinfo
+            (id,userId,paidCategory,expense,comment,createTime,updateTime)
+        values
+            (#{pi.id},#{pi.userId},#{pi.paidCategory},#{pi.expense},#{pi.comment},#{pi.createTime},#{pi.updateTime})
+    </insert>
 </mapper>

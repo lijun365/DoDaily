@@ -13,10 +13,10 @@ import java.util.Date;
 @Data
 public class PaidInfoSea {
     private int userId; // filled by the service
-    private PaidCategory cate;
+    private PaidCategory category;
     private String comment;
     private int exp1; // the min of expense
     private int exp2; // the max of expense
-    private Date t1; // the start of create time
-    private Date t2; // the end of create time
+    private Date tr1; // the start of create time
+    private Date tr2; // the end of create time
 }

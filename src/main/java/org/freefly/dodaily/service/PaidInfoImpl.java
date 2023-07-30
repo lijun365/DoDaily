@@ -19,22 +19,17 @@ public class PaidInfoImpl {
     @Autowired
     private SyncIdInfo syncIdInfo;
 
-    public PaidInfoImpl(){
-        baseId=syncIdInfo.syncPaidInfo();
-    }
     public int insert(PaidInfo pi) {
 //        int cond=1;
 //        while(baseId<0 && cond <=3){
 //            baseId=syncIdInfo.syncPaidInfo();
 //            ++cond;
 //        }
-        if(baseId<0){
-            ISLogger.getInstance().logError("Generate Id Failed!",Thread.currentThread().getStackTrace()[1]);
-            return -1;
-        }
+//        if(baseId<0){
+//            ISLogger.getInstance().logError("Generate Id Failed!",Thread.currentThread().getStackTrace()[1]);
+//            return -1;
+//        }
 
-        ++baseId;
-        pi.setId(baseId);
         Date ct=new Date();
         pi.setCreateTime(ct);
         pi.setUpdateTime(ct);
