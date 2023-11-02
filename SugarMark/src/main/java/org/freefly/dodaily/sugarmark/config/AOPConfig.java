@@ -3,8 +3,10 @@ package org.freefly.dodaily.sugarmark.config;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.freefly.dodaily.common.message.RabbitMqMailMsg;
 import org.freefly.dodaily.sugarmark.client.UserServiceClient;
 import org.freefly.dodaily.common.entity.User;
+import org.freefly.dodaily.sugarmark.common.ResultCode;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +32,7 @@ public class AOPConfig {
     }
 
     @After("pointcut()")
-    public void sendRabbitMQ() {
+    public void sendRabbitMQInsert() {
         Cookie[] cookies = request.getCookies();
         if (cookies == null || cookies.length == 0) {
             System.out.println("Cookies is null or empty!");
@@ -52,13 +54,16 @@ public class AOPConfig {
             System.out.println("No the user!");
             return;
         }
+        RabbitMqMailMsg rabbitMqMailMsg = new RabbitMqMailMsg();
+        rabbitMqMailMsg.setSignal(ResultCode.S_INSERT_OK);
+        rabbitMqMailMsg.setObject(userById);
 
         CorrelationData correlationData = new CorrelationData(UUID.randomUUID().toString());
         correlationData.getFuture().addCallback(
                 result -> {
-                    if(result.isAck()){
+                    if (result.isAck()) {
                         System.out.println("RabbitMq: message sent successfully!");
-                    }else {
+                    } else {
                         System.out.println("RabbitMq: message sent unsuccessfully!");
                     }
                 },
@@ -66,6 +71,6 @@ public class AOPConfig {
                     System.out.println("RabbitMq: Something ERROR even the ack can't be returned...");
                 }
         );
-        rabbitTemplate.convertAndSend("mail.exchange","mail_insert",userById, correlationData);
+        rabbitTemplate.convertAndSend("mail.exchange", "mail_insert", rabbitMqMailMsg, correlationData);
     }
 }

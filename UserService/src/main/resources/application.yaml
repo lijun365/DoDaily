@@ -19,7 +19,8 @@ spring:
       discovery:
         enabled: true
       config:
-        enabled: true
+        file-extension: yaml
+        timeout: 5000
 
 # Deploy mybatis
 mybatis:

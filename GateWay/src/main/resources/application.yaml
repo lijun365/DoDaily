@@ -18,6 +18,8 @@ spring:
         enabled: true
       discovery:
         enabled: true
+        username: nacos
+        password: nacos
     gateway:
       discovery:
         locator:
@@ -31,7 +33,7 @@ spring:
         - id: userservice
           uri: lb://userservice
           predicates:
-            - Path=/user/**
+            - Path=/userservice/**
       default-filters:
         - AddRequestHeader=origin, DODAILY_GATEWAY
 feign:

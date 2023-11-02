@@ -10,6 +10,7 @@ import org.freefly.dodaily.userservice.service.Impl.UserService;
 import org.freefly.dodaily.userservice.tool.CommonTool;
 import org.freefly.dodaily.userservice.tool.JWTTool;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.List;
 
+@Component
 @RestController
 public class UserController {
 
