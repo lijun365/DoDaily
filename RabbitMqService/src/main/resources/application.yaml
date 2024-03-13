@@ -22,8 +22,8 @@ spring:
     host: smtp.163.com
     protocol: smtp
     default-encoding: utf-8
-    username: 15255634807@163.com
-    password: lim3651314
+    username: 111
+    password: 222
     port: 25
   thymeleaf:
     mode: HTML
